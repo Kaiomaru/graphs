@@ -23,104 +23,6 @@ class Window(QWidget):
         self.messageBox.setFixedSize(500, 220)
 
 
-    #Инициация графического интерфейса: создание и расположение элементов в сетке
-    def initUI(self):
-        self.setGeometry(875, 700, 450, 300)
-        self.setWindowTitle('Graph working')
-
-        grid = QGridLayout()
-        grid.setSpacing(10)
-
-        addNodeBtn = QPushButton('Add node', self)
-        addNodeBtn.clicked.connect(self.AddNode)
-        
-        createBtn = QPushButton('Create', self)  
-        createBtn.clicked.connect(self.Create)
-
-        addRelationBtn = QPushButton('Add relation', self)
-        addRelationBtn.clicked.connect(self.AddRelation)
-
-        delRelButton = QPushButton('Delete')
-        delRelButton.clicked.connect(self.DeleteRelation)
-
-        delVertButton = QPushButton('Delete')
-        delVertButton.clicked.connect(self.DeleteVertex)
-
-        runFordBtn = QPushButton('Fords alg', self)
-        runFordBtn.clicked.connect(self.RunFordAlg)
-
-        runShimbBtn = QPushButton('Shimbell alg', self)
-        runShimbBtn.clicked.connect(self.RunShimbellAlg)
-
-        self.isDirectedChckBx = QCheckBox('Directed')
-        self.isDirectedChckBx.stateChanged.connect(self.ChangedGraph)
-
-        self.relFrom = QLineEdit(self)   
-        self.relFrom.setPlaceholderText('From')
-        self.relTo= QLineEdit(self)
-        self.relTo.setPlaceholderText('To')
-        self.vertCount = QLineEdit(self)
-        self.vertCount.setPlaceholderText('Vertex count')
-        self.relCount = QLineEdit(self)
-        self.relCount.setPlaceholderText('Relation count')
-        self.weight = QLineEdit(self)
-        self.weight.setPlaceholderText('Weight')
-        self.delRelFrom = QLineEdit()
-        self.delRelFrom.setPlaceholderText('From')
-        self.delRelTo = QLineEdit()
-        self.delRelTo.setPlaceholderText('To')
-        self.delVertNumb = QLineEdit()
-        self.delVertNumb.setPlaceholderText('Number')
-        self.fordStartVertex = QLineEdit(self)
-        self.fordStartVertex.setPlaceholderText('Start')
-        self.heldStartVertex = QLineEdit(self)
-        self.heldStartVertex.setPlaceholderText('Start')
-
-        delRelLabel = QLabel('Delete relation')
-        delVertLabel = QLabel('Delete vertex')
-        relAddingLabel = QLabel('Add relation')
-
-
-        showBtn = QPushButton('Show', self)
-        showBtn.clicked.connect(self.Show)
-        showBtn.setFixedSize(120, 50)
-
-
-        grid.addWidget(self.vertCount, 1, 1)
-        grid.addWidget(createBtn, 1, 3)
-        grid.addWidget(self.relCount,1, 2)
-        grid.addWidget(addNodeBtn, 1, 4)
-
-        grid.addWidget(delVertLabel, 2, 1)
-        grid.addWidget(self.delVertNumb, 2, 2)
-        grid.addWidget(delVertButton, 2, 3)
-
-        grid.addWidget(delRelLabel, 3, 1)
-        grid.addWidget(self.delRelFrom, 3, 2)
-        grid.addWidget(self.delRelTo, 3, 3)
-        grid.addWidget(delRelButton, 3, 4)
-        
-        grid.addWidget(relAddingLabel, 4, 1, 2, 1)
-        grid.addWidget(self.relFrom, 4, 2)
-        grid.addWidget(self.weight, 4, 3, 2, 1)
-        grid.addWidget(addRelationBtn, 4, 4, 2, 1)
-  
-        grid.addWidget(self.relTo, 5, 2)
-
-        grid.addWidget(self.isDirectedChckBx, 6, 2)
-        grid.addWidget(showBtn, 6, 4)
-
-        grid.addWidget(self.fordStartVertex, 7, 1)
-        grid.addWidget(runFordBtn, 7, 2)
-        grid.addWidget(runShimbBtn, 7, 3)
-
-        grid.addWidget(self.heldStartVertex, 8, 4)
-
-        self.setLayout(grid)
-
-        self.show() 
-
-
     #Добавить вершину с номером n+1 в граф
     def AddNode(self):
         self.g.add_node(self.g.number_of_nodes() + 1)
@@ -353,6 +255,105 @@ class Window(QWidget):
             for i in range(0, len(matrix)):
                 matrix[i,j]-=col_mins[j]
         return matrix, row_mins, col_mins
+
+    
+    #Инициация графического интерфейса: создание и расположение элементов в сетке
+    def initUI(self):
+        self.setGeometry(875, 700, 450, 300)
+        self.setWindowTitle('Graph working')
+
+        grid = QGridLayout()
+        grid.setSpacing(10)
+
+        addNodeBtn = QPushButton('Add node', self)
+        addNodeBtn.clicked.connect(self.AddNode)
+        
+        createBtn = QPushButton('Create', self)  
+        createBtn.clicked.connect(self.Create)
+
+        addRelationBtn = QPushButton('Add relation', self)
+        addRelationBtn.clicked.connect(self.AddRelation)
+
+        delRelButton = QPushButton('Delete')
+        delRelButton.clicked.connect(self.DeleteRelation)
+
+        delVertButton = QPushButton('Delete')
+        delVertButton.clicked.connect(self.DeleteVertex)
+
+        runFordBtn = QPushButton('Fords alg', self)
+        runFordBtn.clicked.connect(self.RunFordAlg)
+
+        runShimbBtn = QPushButton('Shimbell alg', self)
+        runShimbBtn.clicked.connect(self.RunShimbellAlg)
+
+        self.isDirectedChckBx = QCheckBox('Directed')
+        self.isDirectedChckBx.stateChanged.connect(self.ChangedGraph)
+
+        self.relFrom = QLineEdit(self)   
+        self.relFrom.setPlaceholderText('From')
+        self.relTo= QLineEdit(self)
+        self.relTo.setPlaceholderText('To')
+        self.vertCount = QLineEdit(self)
+        self.vertCount.setPlaceholderText('Vertex count')
+        self.relCount = QLineEdit(self)
+        self.relCount.setPlaceholderText('Relation count')
+        self.weight = QLineEdit(self)
+        self.weight.setPlaceholderText('Weight')
+        self.delRelFrom = QLineEdit()
+        self.delRelFrom.setPlaceholderText('From')
+        self.delRelTo = QLineEdit()
+        self.delRelTo.setPlaceholderText('To')
+        self.delVertNumb = QLineEdit()
+        self.delVertNumb.setPlaceholderText('Number')
+        self.fordStartVertex = QLineEdit(self)
+        self.fordStartVertex.setPlaceholderText('Start')
+        self.heldStartVertex = QLineEdit(self)
+        self.heldStartVertex.setPlaceholderText('Start')
+
+        delRelLabel = QLabel('Delete relation')
+        delVertLabel = QLabel('Delete vertex')
+        relAddingLabel = QLabel('Add relation')
+
+
+        showBtn = QPushButton('Show', self)
+        showBtn.clicked.connect(self.Show)
+        showBtn.setFixedSize(120, 50)
+
+
+        grid.addWidget(self.vertCount, 1, 1)
+        grid.addWidget(createBtn, 1, 3)
+        grid.addWidget(self.relCount,1, 2)
+        grid.addWidget(addNodeBtn, 1, 4)
+
+        grid.addWidget(delVertLabel, 2, 1)
+        grid.addWidget(self.delVertNumb, 2, 2)
+        grid.addWidget(delVertButton, 2, 3)
+
+        grid.addWidget(delRelLabel, 3, 1)
+        grid.addWidget(self.delRelFrom, 3, 2)
+        grid.addWidget(self.delRelTo, 3, 3)
+        grid.addWidget(delRelButton, 3, 4)
+        
+        grid.addWidget(relAddingLabel, 4, 1, 2, 1)
+        grid.addWidget(self.relFrom, 4, 2)
+        grid.addWidget(self.weight, 4, 3, 2, 1)
+        grid.addWidget(addRelationBtn, 4, 4, 2, 1)
+  
+        grid.addWidget(self.relTo, 5, 2)
+
+        grid.addWidget(self.isDirectedChckBx, 6, 2)
+        grid.addWidget(showBtn, 6, 4)
+
+        grid.addWidget(self.fordStartVertex, 7, 1)
+        grid.addWidget(runFordBtn, 7, 2)
+        grid.addWidget(runShimbBtn, 7, 3)
+
+        grid.addWidget(self.heldStartVertex, 8, 4)
+
+        self.setLayout(grid)
+
+        self.show() 
+
 
 
 
