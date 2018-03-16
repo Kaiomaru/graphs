@@ -52,9 +52,6 @@ class Window(QWidget):
         runShimbBtn = QPushButton('Shimbell alg', self)
         runShimbBtn.clicked.connect(self.RunShimbellAlg)
 
-        HeldBtn = QPushButton('Held', self)  
-        HeldBtn.clicked.connect(self.Held)
-
         self.isDirectedChckBx = QCheckBox('Directed')
         self.isDirectedChckBx.stateChanged.connect(self.ChangedGraph)
 
@@ -116,7 +113,6 @@ class Window(QWidget):
         grid.addWidget(self.fordStartVertex, 7, 1)
         grid.addWidget(runFordBtn, 7, 2)
         grid.addWidget(runShimbBtn, 7, 3)
-        grid.addWidget(HeldBtn, 7, 4)
 
         grid.addWidget(self.heldStartVertex, 8, 4)
 
@@ -357,78 +353,6 @@ class Window(QWidget):
             for i in range(0, len(matrix)):
                 matrix[i,j]-=col_mins[j]
         return matrix, row_mins, col_mins
-
-    
-    #BEWARE OF HARDCODE
-    def Held(self):
-
-        vertexes = list(self.g.nodes())
-        try:
-            start = int(self.heldStartVertex.text())
-            if start not in vertexes:
-                raise Exception('Такой вершины нет')
-            vertexes.remove(start)
-        except Exception as e:
-            self.errorMsg.showMessage(e.args[0])
-            return
-
-        path_endings=[]
-        paths = []
-        all_p = []
-
-        for v in self.g.adj[start]:
-            path_endings.append(v)
-            paths.append([v])
-
-        for i in range(0, len(paths)):
-            while set(paths[i]) != set(vertexes):
-                current_path = paths[i]
-                last_vert = current_path[len(current_path)-1]
-                sub_paths = []
-                nbrs = []
-                all_combs = []
-
-                for nbr in self.g.adj[last_vert]:
-                    if nbr in path_endings and nbr not in current_path: #Запоминаем всех соседей
-                        nbrs.append(nbr)
-                all_combs = list(itertools.permutations(nbrs, len(nbrs)))   #Все комбинации их прохождения 
-
-                path_num = 0
-                sum_ = math.inf
-                for j in range(0, len(all_combs)):
-                    sub_paths.append([last_vert])
-                    for el in all_combs[j]:     #Формируем все подпути
-                        sub_paths[j].append(el)
-                    new_sum = 0
-
-                    for k in range(0,len(sub_paths[j])-1):  
-                        new_sum += self.g[sub_paths[j][k]][sub_paths[j][k+1]]['weight'] #Считаем веса в подпути
-                        if new_sum < sum_:
-                            sum_ = new_sum
-                            path_num = j            #Запоминаем самый короткий
-                    sub_paths[j].remove(last_vert)
-                for el in sub_paths[path_num]:      #Переносим в основной путь
-                    paths[i].append(el)
-
-        path_num = 0
-        sum_ = math.inf
-        for i in range(0,len(paths)):       #Вычисляем длины всех путей и запоминаем минимальный
-            paths[i].append(start)
-            paths[i].insert(0,start)
-            print(paths[i])
-            new_sum = 0
-            for j in range(0, len(paths[i])-1):
-                new_sum += self.g[paths[i][j]][paths[i][j+1]]['weight']
-            if new_sum < sum_:
-                sum_ = new_sum
-                path_num = i
-
-        text = 'Путь '
-        for vert in paths[path_num]:
-            text += '-'+str(vert)
-        text += '\nДлина: ' + str(sum_)
-        self.messageBox.setText(text)
-        self.messageBox.show()
 
 
 
